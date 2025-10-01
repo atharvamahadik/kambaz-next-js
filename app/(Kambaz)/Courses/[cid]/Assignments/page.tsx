@@ -36,7 +36,7 @@ export default function Assignments() {
               </div>
             </div>
           </ListGroupItem>
-          <ListGroupItem className="p-3 wd-assignment-list-item">
+          <ListGroupItem className="p-3 wd-assignment-list-item ps-1">
             <div className="d-flex align-items-center">
               <BsGripVertical className="fs-4 me-3" />
               <LiaFileContractSolid className="fs-4 text-success me-3" />
@@ -60,7 +60,7 @@ export default function Assignments() {
             </div>
           </ListGroupItem>
 
-          <ListGroupItem className="p-3 wd-assignment-list-item">
+          <ListGroupItem className="p-3 wd-assignment-list-item ps-1">
             <div className="d-flex align-items-center">
               <BsGripVertical className="fs-4 me-3" />
               <LiaFileContractSolid className="fs-4 text-success me-3" />
@@ -84,7 +84,7 @@ export default function Assignments() {
             </div>
           </ListGroupItem>
 
-          <ListGroupItem className="p-3 wd-assignment-list-item">
+          <ListGroupItem className="p-3 wd-assignment-list-item ps-1">
             <div className="d-flex align-items-center">
               <BsGripVertical className="fs-4 me-3" />
               <LiaFileContractSolid className="fs-4 text-success me-3" />

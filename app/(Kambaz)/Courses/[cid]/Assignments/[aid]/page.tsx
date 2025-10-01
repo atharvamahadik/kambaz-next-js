@@ -9,7 +9,7 @@ export default function AssignmentEditor() {
       <Form>
         <Form.Group className="mb-3" controlId="wd-name">
           <Form.Label>Assignment Name</Form.Label>
-          <Form.Control type="text" defaultValue="A1 - ENV + HTML" />
+          <Form.Control type="text" defaultValue="A1" />
         </Form.Group>
         <Form.Group className="mb-3" controlId="wd-description">
           <Form.Label>Description</Form.Label>
