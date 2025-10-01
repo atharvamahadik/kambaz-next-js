@@ -16,8 +16,7 @@ export default function AssignmentEditor() {
           <Form.Control
             as="textarea"
             rows={5}
-            defaultValue="The assignment is available online. Submit a link to the landing page of your web application
-            running on netlify."
+            defaultValue="The assignment is available online. Submit a link to the landing page of your web application running on netlify."
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="wd-points">
