@@ -1,160 +1,112 @@
 "use client";
-export default function AssignmentEditor() {
-  return (
-    <div id="wd-assignments-editor">
-      <label htmlFor="wd-name">Assignment Name</label>
-      <input id="wd-name" defaultValue="A1 - ENV + HTML" />
-      <br />
-      <br />
-      <textarea
-        id="wd-description"
-        rows={5}
-        cols={50}
-        defaultValue="The assignment is available online. Submit a link to the landing page of your web application."
-      ></textarea>
-      <br />
-      <table style={{ borderSpacing: "0 15px" }}>
-        <tbody>
-          <tr>
-            <td align="right" valign="top">
-              <label htmlFor="wd-points">Points</label>
-            </td>
-            <td>
-              <input id="wd-points" defaultValue={100} />
-            </td>
-          </tr>
 
-          <tr>
-            <td align="right" valign="top">
-              <label htmlFor="wd-group">Assignment Group</label>
-            </td>
-            <td>
-              <select id="wd-group" defaultValue="Assignments">
+import { Button, Col, Form, Row } from "react-bootstrap";
+
+export default function AssignmentEditor() {
+   return (
+    <div id="wd-assignments-editor" className="p-3">
+      <h4 className="fw-bold mb-4">Edit Assignment</h4>
+      <Form>
+        <Form.Group className="mb-3" controlId="wd-name">
+          <Form.Label>Assignment Name</Form.Label>
+          <Form.Control type="text" defaultValue="A1 - ENV + HTML" />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="wd-description">
+          <Form.Label>Description</Form.Label>
+          <Form.Control
+            as="textarea"
+            rows={5}
+            defaultValue="The assignment is available online. Submit a link to the landing page of your web application
+            running on netlify."
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="wd-points">
+          <Form.Label>Points</Form.Label>
+            <Form.Control type="number" defaultValue={100} />
+        </Form.Group>
+        
+        <Form.Group className="mb-3" controlId="wd-assignment">
+          <Row className="mb-3">
+            <Col md={3}>
+            <Form.Group controlId="wd-group">
+              <Form.Label>Assignment Group</Form.Label>
+              <Form.Select defaultValue="Assignments">
                 <option>Assignments</option>
                 <option>Quizzes</option>
-              </select>
-            </td>
-          </tr>
-
-          <tr>
-            <td align="right" valign="top">
-              <label htmlFor="wd-display-grade-as">Display Grade as</label>
-            </td>
-            <td>
-              <select id="wd-display-grade-as" defaultValue="Percentage">
+              </Form.Select>
+            </Form.Group>
+            </Col>
+          </Row>
+        </Form.Group>
+        <Row className="mb-3">
+          <Col md={3}>
+            <Form.Group controlId="wd-display-grade-as">
+              <Form.Label>Display Grade As</Form.Label>
+              <Form.Select defaultValue="Percentage">
                 <option>Percentage</option>
                 <option>Points</option>
-              </select>
-            </td>
-          </tr>
+              </Form.Select>
+            </Form.Group>
+          </Col>
+        </Row>
 
-          <tr>
-            <td align="right" valign="top">
-              <label htmlFor="wd-submission-type">Submission Type</label>
-            </td>
-            <td>
-              <select id="wd-submission-type" defaultValue="Online">
+        <Form.Group className="mb-3" controlId="wd-submission">
+          <Row className="mb-3">
+            <Col md={3}>
+            <Form.Group controlId="wd-submission-type">
+              <Form.Label>Submission Type</Form.Label>
+              <Form.Select defaultValue="Online">
                 <option>Online</option>
                 <option>Offline</option>
-              </select>
-            </td>
-          </tr>
+              </Form.Select>
+            </Form.Group>
+          <Form.Group className="mb-3">
+            <br/>
+          <Form.Label><strong>Online Entry Options</strong></Form.Label>
+          <div className="d-flex flex-column">
+            <Form.Check type="checkbox" label="Text Entry" id="wd-text-entry" />
+            <Form.Check type="checkbox" label="Website URL" id="wd-website-url" />
+            <Form.Check type="checkbox" label="Media Recordings" id="wd-media-recordings" />
+            <Form.Check type="checkbox" label="Student Annotation" id="wd-student-annotation" />
+            <Form.Check type="checkbox" label="File Uploads" id="wd-file-upload" />
+          </div>
+        </Form.Group>
+          </Col>
+        </Row>
+        </Form.Group>
+        
+        <Form.Group className="mb-3" controlId="wd-submission">
+         Assign <br/>
+          <Form.Group controlId="wd-assign-to">
+              <Form.Label>Assign To</Form.Label>
+              <Form.Control defaultValue="Everyone" />
+            </Form.Group>
+            <Form.Group controlId="wd-due-date">
+              <Form.Label>Due</Form.Label>
+              <Form.Control type="date" defaultValue="2025-09-18" />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Available</Form.Label>
+              <Row>
+                <Col>
+                  <Form.Control type="date" defaultValue="2025-09-18" />
+                </Col>
+                <Col>
+                  <Form.Control type="date" defaultValue="2025-11-18" />
+                </Col>
+              </Row>
+            </Form.Group>
+        </Form.Group>
 
-          <tr>
-            <td colSpan={2}>
-              <b>Online Entry Options</b>
-            </td>
-          </tr>
-
-          <tr>
-            <td></td>
-            <td>
-              <input type="checkbox" id="wd-text-entry" />
-              <label htmlFor="wd-text-entry">Text Entry</label>
-              <br />
-              <input type="checkbox" id="wd-website-url" />
-              <label htmlFor="wd-website-url">Website URL</label>
-              <br />
-              <input type="checkbox" id="wd-media-recordings" />
-              <label htmlFor="wd-media-recordings">Media Recordings</label>
-              <br />
-              <input type="checkbox" id="wd-student-annotation" />
-              <label htmlFor="wd-student-annotation">Student Annotation</label>
-              <br />
-              <input type="checkbox" id="wd-file-upload" />
-              <label htmlFor="wd-file-upload">File Uploads</label>
-            </td>
-          </tr>
-
-          <tr>
-            <td align="right" valign="top">
-              <label htmlFor="wd-assign-to">Assign To</label>
-            </td>
-            <td>
-              <input id="wd-assign-to" defaultValue="Everyone" />
-            </td>
-          </tr>
-
-          <tr>
-            <td align="right" valign="top">
-              <label htmlFor="wd-due-date">Due</label>
-            </td>
-            <td>
-              <input id="wd-due-date" type="date" defaultValue="2025-09-18" />
-            </td>
-          </tr>
-
-          <tr>
-            <td align="right" valign="top">
-              <label htmlFor="wd-available-from">Available from</label>
-            </td>
-            <td>
-              <input
-                id="wd-available-from"
-                type="date"
-                defaultValue="2025-09-18"
-              />
-            </td>
-            <td align="right" valign="top">
-              <label htmlFor="wd-available-until">Until</label>
-            </td>
-            <td>
-              <input
-                id="wd-available-until"
-                type="date"
-                defaultValue="2025-11-18"
-              />
-            </td>
-          </tr>
-
-          {/* Horizontal line before buttons */}
-          <tr>
-            <td colSpan={4}>
-              <hr style={{ borderTop: "2px solid #ccc", margin: "10px 0" }} />
-            </td>
-          </tr>
-          <tr>
-            <td></td>
-            <td colSpan={3} align="right">
-              <button
-                type="button"
-                id="wd-cancel-btn"
-                style={{ marginRight: "10px" }}
-                onClick={() => alert("Cancelled Successfully.")}
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                id="wd-save-btn"
-                onClick={() => alert("Saved Successfully.")}
-              >
-                Save
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+        <div className="d-flex justify-content-end mt-4">
+          <Button variant="secondary" className="me-2" onClick={() => alert("Cancelled Successfully.")}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={() => alert("Saved Successfully.")}>
+            Save
+          </Button>
+        </div>
+      </Form>
     </div>
   );
 }

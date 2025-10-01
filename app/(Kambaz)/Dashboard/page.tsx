@@ -1,112 +1,282 @@
 import Link from "next/link";
 import Image from "next/image";
+import {
+  Button,
+  Card,
+  CardBody,
+  CardImg,
+  CardText,
+  CardTitle,
+  Col,
+  Row,
+} from "react-bootstrap";
 
 export default function Dashboard() {
   return (
     <div id="wd-dashboard">
       <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
-      <h2 id="wd-dashboard-published">Published Courses (6)</h2>
+      <h2 id="wd-dashboard-published">Published Courses (7)</h2> <hr />
       <div id="wd-dashboard-courses">
-        <div className="wd-dashboard-course">
-          <Link href="/Courses/CS5610" className="wd-dashboard-course-link">
-            <Image
-              src="/images/CourseImage1.png"
-              width={200}
-              height={150}
-              alt="Course #1 Image"
-            />
-            <div>
-              <h5> CS5610 Web Development </h5>
-              <p className="wd-dashboard-course-title">
-                Full Stack Software Developer
-              </p>
-              <button> Go </button>
-            </div>
-          </Link>
-        </div>
-        <div className="wd-dashboard-course">
-          <Link href="/Courses/CS5010" className="wd-dashboard-course-link">
-            <Image
-              src="/images/CourseImage2.webp"
-              width={200}
-              height={150}
-              alt="Course #2 Image"
-            />
-            <div>
-              <h5> CS5010 Programming Design Paradigm </h5>
-              <p className="wd-dashboard-course-title">Design Paradigms</p>
-              <button> Go </button>
-            </div>
-          </Link>
-        </div>
-        <div className="wd-dashboard-course">
-          <Link href="/Courses/CS5780" className="wd-dashboard-course-link">
-            <Image
-              src="/images/CourseImage3.jpeg"
-              width={200}
-              height={150}
-              alt="Course #3 Image"
-            />
-            <div>
-              <h5> CS5780 Building Scalable Distributed Systems </h5>
-              <p className="wd-dashboard-course-title">
-                Scalable Distributed Systems
-              </p>
-              <button> Go </button>
-            </div>
-          </Link>
-        </div>
-        <div className="wd-dashboard-course">
-          <Link href="/Courses/CS5900" className="wd-dashboard-course-link">
-            <Image
-              src="/images/CourseImage4.jpeg"
-              width={200}
-              height={150}
-              alt="Course #4 Image"
-            />
-            <div>
-              <h5> CS5900 Foundation of AI </h5>
-              <p className="wd-dashboard-course-title">
-                AI Foundational Course
-              </p>
-              <button> Go </button>
-            </div>
-          </Link>
-        </div>
-        <div className="wd-dashboard-course">
-          <Link href="/Courses/CS5400" className="wd-dashboard-course-link">
-            <Image
-              src="/images/CourseImage5.jpeg"
-              width={200}
-              height={150}
-              alt="Course #5 Image"
-            />
-            <div>
-              <h5> CS5610 Cloud Computing </h5>
-              <p className="wd-dashboard-course-title">
-                Cloud Computing Course
-              </p>
-              <button> Go </button>
-            </div>
-          </Link>
-        </div>
-        <div className="wd-dashboard-course">
-          <Link href="/Courses/CS7010" className="wd-dashboard-course-link">
-            <Image
-              src="/images/CourseImage6.jpeg"
-              width={200}
-              height={150}
-              alt="Course #6 Image"
-            />
-            <div>
-              <h5> CS7010 ML OPS </h5>
-              <p className="wd-dashboard-course-title">
-                Machine Learning Operations
-              </p>
-              <button> Go </button>
-            </div>
-          </Link>
-        </div>
+        <Row className="g-4" style={{ rowGap: "35px" }} >
+          <Col
+            className="wd-dashboard-course"
+            xs={12}
+            sm={6}
+            md={4}
+            lg={3}
+            xl={2}
+            xxl={1}
+            style={{ width: "300px" }}
+          >
+            <Card>
+              <Link
+                href="/Courses/CS5610"
+                className="wd-dashboard-course-link text-decoration-none text-dark"
+              >
+                <CardImg
+                  variant="top"
+                  src="/images/CourseImage1.png"
+                  width="100%"
+                  height={160}
+                />
+                <CardBody>
+                  <CardTitle className="wd-dashboard-course-title text-nowrap overflow-hidden">
+                    {" "}
+                    CS5610 Web Development{" "}
+                  </CardTitle>
+                  <CardText
+                    className="wd-dashboard-course-description overflow-hidden"
+                    style={{ height: "100px" }}
+                  >
+                    Full Stack Software Developer
+                  </CardText>
+                  <Button variant="primary"> Go </Button>
+                </CardBody>
+              </Link>
+            </Card>
+          </Col>
+          <Col
+            className="wd-dashboard-course"
+            xs={12}
+            sm={6}
+            md={4}
+            lg={3}
+            xl={2}
+            xxl={1}
+            style={{ width: "300px" }}
+          >
+            <Card>
+              <Link
+                href="/Courses/CS5010"
+                className="wd-dashboard-course-link text-decoration-none text-dark"
+              >
+                <CardImg
+                  variant="top"
+                  src="/images/CourseImage2.webp"
+                  width="100%"
+                  height={160}
+                />
+                <CardBody>
+                  <CardTitle className="wd-dashboard-course-title text-nowrap overflow-hidden">
+                    CS5010 Programming Design Paradigm
+                  </CardTitle>
+                  <CardText
+                    className="wd-dashboard-course-description overflow-hidden"
+                    style={{ height: "100px" }}
+                  >
+                    Design Paradigms
+                  </CardText>
+                  <Button variant="primary"> Go </Button>
+                </CardBody>
+              </Link>
+            </Card>
+          </Col>
+          <Col
+            className="wd-dashboard-course"
+            xs={12}
+            sm={6}
+            md={4}
+            lg={3}
+            xl={2}
+            xxl={1}
+            style={{ width: "300px" }}
+          >
+            <Card>
+              <Link
+                href="/Courses/CS5780"
+                className="wd-dashboard-course-link text-decoration-none text-dark"
+              >
+                <CardImg
+                  variant="top"
+                  src="/images/CourseImage3.jpeg"
+                  width="100%"
+                  height={160}
+                />
+                <CardBody>
+                  <CardTitle className="wd-dashboard-course-title text-nowrap overflow-hidden">
+                    CS5780 Building Scalable Distributed Systems
+                  </CardTitle>
+                  <CardText
+                    className="wd-dashboard-course-description overflow-hidden"
+                    style={{ height: "100px" }}
+                  >
+                    Scalable Distributed Systems
+                  </CardText>
+                  <Button variant="primary"> Go </Button>
+                </CardBody>
+              </Link>
+            </Card>
+          </Col>
+
+          <Col
+            className="wd-dashboard-course"
+            xs={12}
+            sm={6}
+            md={4}
+            lg={3}
+            xl={2}
+            xxl={1}
+            style={{ width: "300px" }}
+          >
+            <Card>
+              <Link
+                href="/Courses/CS5900"
+                className="wd-dashboard-course-link text-decoration-none text-dark"
+              >
+                <CardImg
+                  variant="top"
+                  src="/images/CourseImage4.jpeg"
+                  width="100%"
+                  height={160}
+                  alt="Course #4 Image"
+                />
+                <CardBody>
+                  <CardTitle className="wd-dashboard-course-title text-nowrap overflow-hidden">
+                    CS5900 Foundation of AI
+                  </CardTitle>
+                  <CardText
+                    className="wd-dashboard-course-description overflow-hidden"
+                    style={{ height: "100px" }}
+                  >
+                    AI Foundational Course
+                  </CardText>
+                  <Button variant="primary"> Go </Button>
+                </CardBody>
+              </Link>
+            </Card>
+          </Col>
+          <Col
+            className="wd-dashboard-course"
+            xs={12}
+            sm={6}
+            md={4}
+            lg={3}
+            xl={2}
+            xxl={1}
+            style={{ width: "300px" }}
+          >
+            <Card>
+              <Link
+                href="/Courses/CS5400"
+                className="wd-dashboard-course-link text-decoration-none text-dark"
+              >
+                <CardImg
+                  variant="top"
+                  src="/images/CourseImage5.jpeg"
+                  width="100%"
+                  height={160}
+                  alt="Course #5 Image"
+                />
+                <CardBody>
+                  <CardTitle className="wd-dashboard-course-title text-nowrap overflow-hidden">
+                    CS5610 Cloud Computing
+                  </CardTitle>
+                  <CardText
+                    className="wd-dashboard-course-description overflow-hidden"
+                    style={{ height: "100px" }}
+                  >
+                    Cloud Computing Course
+                  </CardText>
+                  <Button variant="primary"> Go </Button>
+                </CardBody>
+              </Link>
+            </Card>
+          </Col>
+          <Col
+            className="wd-dashboard-course"
+            xs={12}
+            sm={6}
+            md={4}
+            lg={3}
+            xl={2}
+            xxl={1}
+            style={{ width: "300px" }}
+          >
+            <Card>
+              <Link
+                href="/Courses/CS7010"
+                className="wd-dashboard-course-link text-decoration-none text-dark"
+              >
+                <CardImg
+                  variant="top"
+                  src="/images/CourseImage6.jpeg"
+                  width="100%"
+                  height={160}
+                  alt="Course #6 Image"
+                />
+                <CardBody>
+                  <CardTitle className="wd-dashboard-course-title text-nowrap overflow-hidden">
+                    CS7010 ML OPS
+                  </CardTitle>
+                  <CardText
+                    className="wd-dashboard-course-description overflow-hidden"
+                    style={{ height: "100px" }}
+                  >
+                    Machine Learning Operations
+                  </CardText>
+                  <Button variant="primary"> Go </Button>
+                </CardBody>
+              </Link>
+            </Card>
+          </Col>
+          <Col
+            className="wd-dashboard-course"
+            xs={12}
+            sm={6}
+            md={4}
+            lg={3}
+            xl={2}
+            xxl={1}
+            style={{ width: "300px" }}
+          >
+            <Card>
+              <Link
+                href="/Courses/CS7080"
+                className="wd-dashboard-course-link text-decoration-none text-dark"
+              >
+                <CardImg
+                  variant="top"
+                  src="/images/CourseImage7.jpeg"
+                  width="100%"
+                  height={160}
+                  alt="Course #7 Image"
+                />
+                <CardBody>
+                  <CardTitle className="wd-dashboard-course-title text-nowrap overflow-hidden">
+                    CS7010 Natural Language Processing
+                  </CardTitle>
+                  <CardText
+                    className="wd-dashboard-course-description overflow-hidden"
+                    style={{ height: "100px" }}
+                  >
+                    Natural Language Processing
+                  </CardText>
+                  <Button variant="primary"> Go </Button>
+                </CardBody>
+              </Link>
+            </Card>
+          </Col>
+        </Row>
       </div>
     </div>
   );
