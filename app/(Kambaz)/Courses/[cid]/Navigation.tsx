@@ -1,64 +1,49 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname, useParams } from "next/navigation";
+import { ListGroup, ListGroupItem } from "react-bootstrap";
+
+const links = [
+  "Home",
+  "Modules",
+  "Piazza",
+  "Zoom",
+  "Assignments",
+  "Quizzes",
+  "Grades",
+  "People",
+];
 
 export default function CourseNavigation() {
+  const pathname = usePathname();
+  const params = useParams();
+  const cid = params?.cid;
+
   return (
-    <div id="wd-courses-navigation" className="wd list-group fs-5 rounded-0">
-      <Link
-        href="/Courses/CS5610/Home"
-        id="wd-course-home-link"
-        className="list-group-item active border-0"
-      >
-        Home
-      </Link>
-      <Link
-        href="/Courses/CS5610/Modules"
-        id="wd-course-modules-link"
-        className="list-group-item text-danger border-0"
-      >
-        Modules
-      </Link>
-      <Link
-        href="/Courses/CS5610/Piazza"
-        id="wd-course-piazza-link"
-        className="list-group-item text-danger border-0"
-      >
-        Piazza
-      </Link>
-      <Link
-        href="/Courses/CS5610/Zoom"
-        id="wd-course-zoom-link"
-        className="list-group-item text-danger border-0"
-      >
-        Zoom
-      </Link>
-      <Link
-        href="/Courses/CS5610/Assignments"
-        id="wd-course-assignments-link"
-        className="list-group-item text-danger border-0"
-      >
-        Assignments
-      </Link>
-      <Link
-        href="/Courses/CS5610/Quizzes"
-        id="wd-course-quizzes-link"
-        className="list-group-item text-danger border-0"
-      >
-        Quizzes
-      </Link>
-      <Link
-        href="/Courses/CS5610/Grades"
-        id="wd-course-grades-link"
-        className="list-group-item text-danger border-0"
-      >
-        Grades
-      </Link>
-      <Link
-        href="/Courses/CS5610/People/Table"
-        id="wd-course-people-link"
-        className="list-group-item text-danger border-0"
-      >
-        People
-      </Link>
-    </div>
+    <ListGroup
+      id="wd-courses-navigation"
+      className="wd list-group fs-5 rounded-0"
+    >
+      {links.map((link) => {
+        const href =
+          link === "People"
+            ? `/Courses/${cid}/People/Table`
+            : `/Courses/${cid}/${link}`;
+        
+        return (
+          <ListGroupItem
+            key={link}
+            as={Link}
+            href={href}
+            className={`list-group-item border-0 ${
+              pathname?.includes(link) ? "active" : "text-danger"
+            }`}
+          >
+            {link}
+          </ListGroupItem>
+        );
+      })}
+    </ListGroup>
   );
 }

@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import { ListGroup, ListGroupItem } from "react-bootstrap";
@@ -5,9 +7,16 @@ import { FaCaretDown, FaPlus, FaCheckCircle } from "react-icons/fa";
 import { IoEllipsisVertical } from "react-icons/io5";
 import { BsGripVertical } from "react-icons/bs";
 import { LiaFileContractSolid } from "react-icons/lia";
+import { useParams } from "next/navigation";
+import assignments from "../../../Database/assignments.json";
 import AssignmentControlButtons from "./AssignmentControlButtons";
 
 export default function Assignments() {
+  const { cid } = useParams();
+  const courseAssignments = assignments.filter(
+    (assignment) => assignment.course === cid
+  );
+
   return (
     <div>
       <AssignmentControlButtons />
@@ -36,77 +45,36 @@ export default function Assignments() {
               </div>
             </div>
           </ListGroupItem>
-          <ListGroupItem className="p-3 wd-assignment-list-item ps-1">
-            <div className="d-flex align-items-center">
-              <BsGripVertical className="fs-4 me-3" />
-              <LiaFileContractSolid className="fs-4 text-success me-3" />
-              <div className="flex-grow-1">
-                <Link
-                  href="/Courses/CS5610/Assignments/A1"
-                  className="fw-bold text-dark text-decoration-none"
-                >
-                  A1
-                </Link>
-                <div className="text-muted small">
-                  <span className="text-danger">Multiple Modules</span>| Not
-                  available until May 6 at 12:00am | Due May 13 at 11:59pm | 100
-                  pts
-                </div>
-              </div>
-              <div className="d-flex align-items-center gap-3 ms-3">
-                <FaCheckCircle className="text-success fs-5" />
-                <IoEllipsisVertical className="fs-4" />
-              </div>
-            </div>
-          </ListGroupItem>
 
-          <ListGroupItem className="p-3 wd-assignment-list-item ps-1">
-            <div className="d-flex align-items-center">
-              <BsGripVertical className="fs-4 me-3" />
-              <LiaFileContractSolid className="fs-4 text-success me-3" />
-              <div className="flex-grow-1">
-                <Link
-                  href="/Courses/CS5610/Assignments/A2"
-                  className="fw-bold text-dark text-decoration-none"
-                >
-                  A2
-                </Link>
-                <div className="text-muted small">
-                  <span className="text-danger">Multiple Modules</span>| Not
-                  available until May 13 at 12:00am | Due May 20 at 11:59pm |
-                  100 pts
+          {courseAssignments.map((assignment) => (
+            <ListGroupItem
+              key={assignment._id}
+              className="p-3 wd-assignment-list-item ps-1"
+            >
+              <div className="d-flex align-items-center">
+                <BsGripVertical className="fs-4 me-3" />
+                <LiaFileContractSolid className="fs-4 text-success me-3" />
+                <div className="flex-grow-1">
+                  <Link
+                    href={`/Courses/${cid}/Assignments/${assignment._id}`}
+                    className="fw-bold text-dark text-decoration-none"
+                  >
+                    {assignment.title}
+                  </Link>
+                  <div className="text-muted small">
+                    <span className="text-danger">Multiple Modules</span> | Not
+                    available until {assignment.availableStartDate || "TBD"} |
+                    Due {assignment.dueDate || "TBD"} |{" "}
+                    {assignment.points || 100} pts
+                  </div>
+                </div>
+                <div className="d-flex align-items-center gap-3 ms-3">
+                  <FaCheckCircle className="text-success fs-5" />
+                  <IoEllipsisVertical className="fs-4" />
                 </div>
               </div>
-              <div className="d-flex align-items-center gap-3 ms-3">
-                <FaCheckCircle className="text-success fs-5" />
-                <IoEllipsisVertical className="fs-4" />
-              </div>
-            </div>
-          </ListGroupItem>
-
-          <ListGroupItem className="p-3 wd-assignment-list-item ps-1">
-            <div className="d-flex align-items-center">
-              <BsGripVertical className="fs-4 me-3" />
-              <LiaFileContractSolid className="fs-4 text-success me-3" />
-              <div className="flex-grow-1">
-                <Link
-                  href="/Courses/CS5610/Assignments/A3"
-                  className="fw-bold text-dark text-decoration-none"
-                >
-                  A3
-                </Link>
-                <div className="text-muted small">
-                  <span className="text-danger">Multiple Modules</span>| Not
-                  available until May 20 at 12:00am | Due May 27 at 11:59pm |
-                  100 pts
-                </div>
-              </div>
-              <div className="d-flex align-items-center gap-3 ms-3">
-                <FaCheckCircle className="text-success fs-5" />
-                <IoEllipsisVertical className="fs-4" />
-              </div>
-            </div>
-          </ListGroupItem>
+            </ListGroupItem>
+          ))}
         </ListGroup>
       </div>
     </div>
