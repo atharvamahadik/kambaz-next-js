@@ -1,65 +1,47 @@
 "use client";
 
 import { configureStore, createSlice } from "@reduxjs/toolkit";
-import { Provider, useSelector, useDispatch } from "react-redux";
-interface CounterState {
-  count: number;
+import { Provider, useSelector } from "react-redux";
+interface HelloState {
+  message: string;
 }
 
-const initialState: CounterState = {
-  count: 0,
+const initialState: HelloState = {
+  message: "Hello from Redux!",
 };
 
-const counterSlice = createSlice({
-  name: "counter",
+const helloSlice = createSlice({
+  name: "hello",
   initialState,
-  reducers: {
-    increment: (state) => {
-      state.count += 1;
-    },
-    decrement: (state) => {
-      state.count -= 1;
-    },
-  },
+  reducers: {},
 });
 
-const { increment, decrement } = counterSlice.actions;
+const helloReducer = helloSlice.reducer;
+
 const store = configureStore({
   reducer: {
-    counterReducer: counterSlice.reducer,
+    helloReducer,
   },
 });
 
 type RootState = ReturnType<typeof store.getState>;
-type AppDispatch = typeof store.dispatch;
-function CounterReduxInner() {
-  const count = useSelector((state: RootState) => state.counterReducer.count);
-  const dispatch = useDispatch<AppDispatch>();
+
+function HelloReduxInner() {
+  const message = useSelector((state: RootState) => state.helloReducer.message);
 
   return (
-    <div id="wd-counter-redux">
-      <h2>Counter Redux</h2>
-      <h3>{count}</h3>
-      <button
-        id="wd-counter-redux-increment-click"
-        onClick={() => dispatch(increment())}
-      >
-        Increment
-      </button>
-      <button
-        id="wd-counter-redux-decrement-click"
-        onClick={() => dispatch(decrement())}
-      >
-        Decrement
-      </button>
+    <div id="wd-hello-redux">
+      <h3>Hello Redux</h3>
+      <h4>{message}</h4>
       <hr />
     </div>
   );
 }
-export default function CounterRedux() {
+
+export default function HelloRedux() {
   return (
     <Provider store={store}>
-      <CounterReduxInner />
+      <HelloReduxInner />
     </Provider>
   );
 }
