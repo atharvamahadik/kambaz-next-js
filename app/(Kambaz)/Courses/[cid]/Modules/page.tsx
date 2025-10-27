@@ -27,10 +27,16 @@ interface Module {
   editing?: boolean;
 }
 
+interface RootState {
+  modulesReducer: {
+    modules: Module[];
+  };
+}
+
 export default function Modules() {
   const { cid } = useParams();
   const [moduleName, setModuleName] = useState("");
-  const { modules } = useSelector((state: any) => state.modulesReducer);
+  const { modules } = useSelector((state: RootState) => state.modulesReducer);
   const dispatch = useDispatch();
 
   const courseModules: Module[] = modules.filter(
@@ -43,7 +49,7 @@ export default function Modules() {
         setModuleName={setModuleName}
         moduleName={moduleName}
         addModule={() => {
-          dispatch(addModule({ name: moduleName, course: cid }));
+          dispatch(addModule({ name: moduleName, course: cid as string }));
           setModuleName("");
         }}
       />
@@ -60,35 +66,38 @@ export default function Modules() {
             <div className="wd-title p-3 ps-2 bg-secondary d-flex justify-content-between align-items-center">
               <div className="d-flex align-items-center overflow-hidden me-2">
               <BsGripVertical className="me-2 fs-3" />
-              {!module.editing && module.name}
-              {module.editing && (
-                <FormControl
-                  className="w-50 d-inline-block"
-                  onChange={(e) =>
-                    dispatch(updateModule({ ...module, name: e.target.value }))             
-                  }
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      dispatch(updateModule({ ...module, editing: false }));
+                {!module.editing ? (
+                   <span className="text-nowrap text-truncate">
+                      {module.name}
+                   </span>
+                 ) : (
+                  <FormControl
+                    className="w-100"
+                    onChange={(e) =>
+                      dispatch(updateModule({ ...module, name: e.target.value }))
                     }
-                  }}
-                  defaultValue={module.name}
-                />
-              )}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        dispatch(updateModule({ ...module, editing: false }));
+                      }
+                    }}
+                    defaultValue={module.name}
+                  />
+                )}
               </div>
 
               <ModuleControlButtons
                 moduleId={module._id}
                 deleteModule={(moduleId) => {
-                    dispatch(deleteModule(moduleId));
-                  }}
-                  editModule={(moduleId) => dispatch(editModule(moduleId))}
+                  dispatch(deleteModule(moduleId));
+                }}
+                editModule={(moduleId) => dispatch(editModule(moduleId))}
               />
             </div>
 
             {module.lessons && (
               <ListGroup className="wd-lessons rounded-0">
-                {module.lessons.map((lesson) => (
+                {module.lessons.map((lesson: Lesson) => (
                   <ListGroupItem
                     key={lesson._id}
                     className="wd-lesson p-3 ps-1"

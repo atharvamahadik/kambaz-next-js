@@ -7,8 +7,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { addAssignment, updateAssignment } from "../reducer"; // Import from local reducer
 
-// Define a default empty assignment for create mode
-const defaultAssignment = {
+interface Assignment {
+  _id: string;
+  title: string;
+  description: string;
+  course: string;
+  points: number;
+  dueDate: string;
+  availableStartDate: string;
+  availableEndDate: string;
+}
+interface RootState {
+  assignmentsReducer: { assignments: Assignment[] };
+}
+
+const defaultAssignment: Assignment = {
   _id: "",
   title: "",
   description: "",
@@ -21,22 +34,20 @@ const defaultAssignment = {
 
 export default function AssignmentEditor() {
   const params = useParams();
-  const { cid, aid } = params; // 'aid' will exist if editing, be undefined if creating
+  const { cid, aid } = params;
   const router = useRouter();
   const dispatch = useDispatch();
 
   const { assignments } = useSelector(
-    (state: any) => state.assignmentsReducer
-  );
-  
-  const assignmentToEdit = assignments.find((a: any) => a._id === aid);
-
-  // Use local state, ensuring 'course' is a string
-  const [assignment, setAssignment] = useState(
-    assignmentToEdit || { ...defaultAssignment, course: (cid as string) }
+    (state: RootState) => state.assignmentsReducer
   );
 
-  // Handle form field changes
+  const assignmentToEdit = assignments.find((a: Assignment) => a._id === aid);
+
+  const [assignment, setAssignment] = useState<Assignment>(
+    assignmentToEdit || { ...defaultAssignment, course: cid as string }
+  );
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -46,14 +57,11 @@ export default function AssignmentEditor() {
     });
   };
 
-  // Handle save
   const handleSave = () => {
     if (aid) {
-      // Edit Mode
       dispatch(updateAssignment(assignment));
     } else {
-      // Create Mode
-      dispatch(addAssignment(assignment)); // 'course' is already set in the state
+      dispatch(addAssignment(assignment));
     }
     router.push(`/Courses/${cid}/Assignments`);
   };
@@ -64,10 +72,6 @@ export default function AssignmentEditor() {
         {assignmentToEdit ? assignmentToEdit.title : "New Assignment"}
       </h4>
       <Form>
-        {/*
-          FIX: Removed 'controlId' from <Form.Group>
-          FIX: Added 'id="title"' to <Form.Control> to match state
-        */}
         <Form.Group className="mb-3">
           <Form.Label>Assignment Name</Form.Label>
           <Form.Control
@@ -78,7 +82,6 @@ export default function AssignmentEditor() {
           />
         </Form.Group>
 
-        {/* FIX: Added 'id="description"' */}
         <Form.Group className="mb-3">
           <Form.Label>Description</Form.Label>
           <Form.Control
@@ -90,7 +93,6 @@ export default function AssignmentEditor() {
           />
         </Form.Group>
 
-        {/* FIX: Added 'id="points"' */}
         <Form.Group className="mb-3">
           <Form.Label>Points</Form.Label>
           <Form.Control
@@ -101,7 +103,6 @@ export default function AssignmentEditor() {
           />
         </Form.Group>
 
-        {/* FIX: Added 'id="dueDate"' */}
         <Form.Group className="mb-3">
           <Form.Label>Due</Form.Label>
           <Form.Control
@@ -112,7 +113,6 @@ export default function AssignmentEditor() {
           />
         </Form.Group>
 
-        {/* FIX: Removed 'controlId' from <Form.Group> */}
         <Form.Group className="mb-3">
           <Form.Label>Available</Form.Label>
           <Row>
@@ -120,7 +120,7 @@ export default function AssignmentEditor() {
               <Form.Label>From</Form.Label>
               <Form.Control
                 type="date"
-                id="availableStartDate" // This ID is correct
+                id="availableStartDate"
                 value={assignment.availableStartDate}
                 onChange={handleChange}
               />
@@ -129,7 +129,7 @@ export default function AssignmentEditor() {
               <Form.Label>Until</Form.Label>
               <Form.Control
                 type="date"
-                id="availableEndDate" // This ID is correct
+                id="availableEndDate"
                 value={assignment.availableEndDate}
                 onChange={handleChange}
               />

@@ -1,22 +1,38 @@
 "use client";
 import Link from "next/link";
-import { redirect } from "next/dist/client/components/navigation";
+import { redirect } from 'next/navigation';
 import { setCurrentUser } from "../reducer";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import * as db from "../../Database";
 import { FormControl, Button } from "react-bootstrap";
+interface Credentials {
+  username?: string;
+  password?: string;
+}
+interface User {
+  _id: string;
+  username: string;
+  password: string;
+}
 
 export default function Signin() {
-  const [credentials, setCredentials] = useState<any>({});
+  const [credentials, setCredentials] = useState<Credentials>({
+    username: "",
+    password: "",
+  });
   const dispatch = useDispatch();
+
   const signin = () => {
     const user = db.users.find(
-      (u: any) =>
+      (u: User) =>
         u.username === credentials.username &&
         u.password === credentials.password
     );
-    if (!user) return;
+    if (!user) {
+        alert("Invalid username or password");
+        return;
+    }
     dispatch(setCurrentUser(user));
     redirect("/Dashboard");
   };
@@ -25,7 +41,7 @@ export default function Signin() {
     <div id="wd-signin-screen" style={{ maxWidth: "400px" }}>
       <h3>Sign in</h3>
       <FormControl
-        defaultValue={credentials.username}
+        value={credentials.username}
         onChange={(e) =>
           setCredentials({ ...credentials, username: e.target.value })
         }
@@ -34,7 +50,7 @@ export default function Signin() {
         className="mb-2"
       />
       <FormControl
-        defaultValue={credentials.password}
+        value={credentials.password}
         onChange={(e) =>
           setCredentials({ ...credentials, password: e.target.value })
         }

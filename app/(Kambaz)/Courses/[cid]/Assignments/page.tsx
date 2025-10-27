@@ -9,24 +9,35 @@ import { BsGripVertical } from "react-icons/bs";
 import { LiaFileContractSolid } from "react-icons/lia";
 import { useParams } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteAssignment } from "./reducer"; // Imports from local reducer file
+import { deleteAssignment } from "./reducer";
 import AssignmentControlButtons from "./AssignmentControlButtons";
+
+interface Assignment {
+  _id: string;
+  title: string;
+  course: string;
+  description?: string;
+  points?: number;
+  dueDate?: string;
+  availableStartDate?: string;
+  availableEndDate?: string;
+}
+interface RootState {
+  assignmentsReducer: { assignments: Assignment[] };
+}
 
 export default function Assignments() {
   const { cid } = useParams();
   const dispatch = useDispatch();
 
-  // Read assignments from Redux store
   const { assignments } = useSelector(
-    (state: any) => state.assignmentsReducer
-  );
-  
-  // Filter assignments for the current course
-  const courseAssignments = assignments.filter(
-    (assignment: any) => assignment.course === cid
+    (state: RootState) => state.assignmentsReducer
   );
 
-  // Handle delete click
+  const courseAssignments = assignments.filter(
+    (assignment: Assignment) => assignment.course === cid
+  );
+
   const handleDelete = (assignmentId: string) => {
     if (window.confirm("Are you sure you want to remove this assignment?")) {
       dispatch(deleteAssignment(assignmentId));
@@ -39,7 +50,7 @@ export default function Assignments() {
 
       <ListGroup>
         <ListGroupItem className="rounded-0 border-gray" id="wd-assignments">
-          <div className="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+           <div className="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
             <div className="d-flex align-items-center">
               <BsGripVertical className="fs-4 me-2" />
               <FaCaretDown className="me-2" />
@@ -55,8 +66,7 @@ export default function Assignments() {
             </div>
           </div>
         </ListGroupItem>
-
-        {courseAssignments.map((assignment: any) => (
+        {courseAssignments.map((assignment: Assignment) => (
           <ListGroupItem
             key={assignment._id}
             className="p-3 wd-assignment-list-item ps-1"

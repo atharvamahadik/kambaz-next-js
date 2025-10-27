@@ -3,34 +3,47 @@ import { ReactNode, useState } from "react";
 import CourseNavigation from "./Navigation";
 import { FaAlignJustify } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import { useParams, redirect } from "next/navigation"; // 1. Import redirect
+import { useParams, redirect } from "next/navigation";
 import Breadcrumb from "./Breadcrumb";
-import Link from "next/link"; // 2. Import Link
+import Link from "next/link";
+
+interface Course {
+  _id: string;
+  name: string;
+}
+interface User {
+  _id: string;
+  username: string;
+  role: string;
+}
+interface Enrollment {
+  _id: string;
+  user: string;
+  course: string;
+}
+interface RootState {
+  coursesReducer: { courses: Course[] };
+  accountReducer: { currentUser: User | null };
+  enrollmentsReducer: { enrollments: Enrollment[] };
+}
 
 export default function CoursesLayout({ children }: { children: ReactNode }) {
   const { cid } = useParams();
+  const [isNavVisible, setIsNavVisible] = useState(true);
 
-  // --- Start of New Security Logic ---
+  const { courses } = useSelector((state: RootState) => state.coursesReducer);
+  const { currentUser } = useSelector((state: RootState) => state.accountReducer);
+  const { enrollments } = useSelector((state: RootState) => state.enrollmentsReducer);
 
-  // 3. Get all the state we need for validation
-  const { courses } = useSelector((state: any) => state.coursesReducer);
-  const { currentUser } = useSelector((state: any) => state.accountReducer);
-  const { enrollments } = useSelector(
-    (state: any) => state.enrollmentsReducer
-  );
-
-  // 4. CHECK 1: Is anyone logged in?
   if (!currentUser) {
-    // Adjust this path to your actual signin page
-    redirect("/Kambaz/Account/Signin"); 
+    redirect("/Kambaz/Account/Signin");
+    return null;
   }
 
-  // 5. CHECK 2: Is the logged-in user enrolled in this course?
   const isEnrolled = enrollments.some(
-    (e: any) => e.user === currentUser._id && e.course === cid
+    (e: Enrollment) => e.user === currentUser._id && e.course === cid
   );
 
-  // 6. If not enrolled, block access and show a message
   if (!isEnrolled) {
     return (
       <div className="p-4">
@@ -42,13 +55,8 @@ export default function CoursesLayout({ children }: { children: ReactNode }) {
       </div>
     );
   }
-  // --- End of New Security Logic ---
 
-  // If the user IS enrolled, the component continues normally.
-  const course = courses.find((course: any) => course._id === cid);
-  
-  // Your existing sidebar toggle state
-  const [isNavVisible, setIsNavVisible] = useState(true);
+  const course = courses.find((course: Course) => course._id === cid);
 
   return (
     <div id="wd-courses">
