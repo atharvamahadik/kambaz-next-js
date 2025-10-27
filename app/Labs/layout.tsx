@@ -2,12 +2,15 @@
 import { ReactNode } from "react";
 import TOC from "./toc";
 import "bootstrap/dist/css/bootstrap.min.css";
+import store from "./Lab4/store";
+import { Provider } from "react-redux";
 
 export default function LabsLayout({
   children,
 }: Readonly<{ children: ReactNode }>) {
   return (
-    <table>
+    <Provider store={store}>
+      <table>
       <tbody>
         <tr>
           <td valign="top" width="100px">
@@ -17,5 +20,9 @@ export default function LabsLayout({
         </tr>
       </tbody>
     </table>
+
+
+    </Provider>
+    
   );
 }
