@@ -1,47 +1,16 @@
-"use client";
-
-import { configureStore, createSlice } from "@reduxjs/toolkit";
-import { Provider, useSelector } from "react-redux";
-interface HelloState {
-  message: string;
-}
-
-const initialState: HelloState = {
-  message: "Hello from Redux!",
-};
-
-const helloSlice = createSlice({
-  name: "hello",
-  initialState,
-  reducers: {},
-});
-
-const helloReducer = helloSlice.reducer;
-
-const store = configureStore({
-  reducer: {
-    helloReducer,
-  },
-});
-
-type RootState = ReturnType<typeof store.getState>;
-
-function HelloReduxInner() {
-  const message = useSelector((state: RootState) => state.helloReducer.message);
-
+import { useSelector, useDispatch } from "react-redux";
+import { increment, decrement } from "./counterReducer";
+export default function CounterRedux() {
+  const { count } = useSelector((state: any) => state.counterReducer);
+  const dispatch = useDispatch();
   return (
-    <div id="wd-hello-redux">
-      <h3>Hello Redux</h3>
-      <h4>{message}</h4>
-      <hr />
+    <div id="wd-counter-redux">
+      <h2>Counter Redux</h2>
+      <h3>{count}</h3>
+      <button onClick={() => dispatch(increment())}
+              id="wd-counter-redux-increment-click"> Increment </button>
+      <button onClick={() => dispatch(decrement())}
+              id="wd-counter-redux-decrement-click"> Decrement </button>
+      <hr/>
     </div>
-  );
-}
-
-export default function HelloRedux() {
-  return (
-    <Provider store={store}>
-      <HelloReduxInner />
-    </Provider>
-  );
-}
+);}
