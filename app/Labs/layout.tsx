@@ -1,3 +1,4 @@
+"use client";
 import { ReactNode } from "react";
 import TOC from "./toc";
 import "bootstrap/dist/css/bootstrap.min.css";
