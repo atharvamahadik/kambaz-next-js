@@ -1,16 +1,16 @@
 "use client";
-import ArrayStateVariable from "./ArrayStateVariable";
-import BooleanStateVariables from "./BooleanStateVariables";
-import ClickEvent from "./ClickEvent";
-import Counter from "./Counter";
-import DateStateVariable from "./DateStateVariable";
-import EventObject from "./EventObject";
-import ObjectStateVariable from "./ObjectStateVariable";
-import ParentStateComponent from "./ParentStateComponent";
-import PassingDataOnEvent from "./PassingDataOnEvent";
-import PassingFunctions from "./PassingFunctions";
-import ReduxExamples from "./ReduxExamples.tsx/page";
-import StringStateVariables from "./StringStateVariables";
+// import ArrayStateVariable from "./ArrayStateVariable";
+// import BooleanStateVariables from "./BooleanStateVariables";
+// import ClickEvent from "./ClickEvent";
+// import Counter from "./Counter";
+// import DateStateVariable from "./DateStateVariable";
+// import EventObject from "./EventObject";
+// import ObjectStateVariable from "./ObjectStateVariable";
+// import ParentStateComponent from "./ParentStateComponent";
+// import PassingDataOnEvent from "./PassingDataOnEvent";
+// import PassingFunctions from "./PassingFunctions";
+// import ReduxExamples from "./ReduxExamples.tsx/page";
+// import StringStateVariables from "./StringStateVariables";
 import store from "./store";
 import { Provider } from "react-redux";
 
@@ -22,7 +22,7 @@ export default function Lab4() {
     <Provider store={store}>
     <div id="lab-4">
       <h3>Lab 4</h3>
-      <ClickEvent />
+      {/* <ClickEvent />
       <PassingDataOnEvent />
       <PassingFunctions theFunction={sayHello} />
       <EventObject />
@@ -33,7 +33,7 @@ export default function Lab4() {
       <ObjectStateVariable />
       <ArrayStateVariable />
       <ParentStateComponent />
-      <ReduxExamples />
+      <ReduxExamples /> */}
     </div>
     </Provider>
   );
