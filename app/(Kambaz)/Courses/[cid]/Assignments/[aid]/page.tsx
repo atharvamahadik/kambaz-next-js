@@ -4,11 +4,12 @@ import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button, Form, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
-import { addAssignment, updateAssignment } from "../reducer"; // Import from local reducer
+import { useState, useEffect } from "react";
+import { setAssignments } from "../reducer";
+import * as client from "../../../client";
 
 interface Assignment {
-  _id: string;
+  _id?: string;
   title: string;
   description: string;
   course: string;
@@ -17,20 +18,10 @@ interface Assignment {
   availableStartDate: string;
   availableEndDate: string;
 }
+
 interface RootState {
   assignmentsReducer: { assignments: Assignment[] };
 }
-
-const defaultAssignment: Assignment = {
-  _id: "",
-  title: "",
-  description: "",
-  course: "",
-  points: 100,
-  dueDate: "",
-  availableStartDate: "",
-  availableEndDate: "",
-};
 
 export default function AssignmentEditor() {
   const params = useParams();
@@ -45,7 +36,15 @@ export default function AssignmentEditor() {
   const assignmentToEdit = assignments.find((a: Assignment) => a._id === aid);
 
   const [assignment, setAssignment] = useState<Assignment>(
-    assignmentToEdit || { ...defaultAssignment, course: cid as string }
+    assignmentToEdit || {
+      title: "",
+      description: "",
+      course: cid as string,
+      points: 100,
+      dueDate: "",
+      availableStartDate: "",
+      availableEndDate: "",
+    }
   );
 
   const handleChange = (
@@ -57,14 +56,53 @@ export default function AssignmentEditor() {
     });
   };
 
-  const handleSave = () => {
-    if (aid) {
-      dispatch(updateAssignment(assignment));
-    } else {
-      dispatch(addAssignment(assignment));
-    }
+  const onCreateAssignmentForCourse = async () => {
+    if (!cid) return;
+    const newAssignment = {
+      title: assignment.title,
+      description: assignment.description,
+      course: cid as string,
+      points: assignment.points,
+      dueDate: assignment.dueDate,
+      availableStartDate: assignment.availableStartDate,
+      availableEndDate: assignment.availableEndDate,
+    };
+    const createdAssignment = await client.createAssignmentForCourse(
+      cid as string,
+      newAssignment
+    );
+    dispatch(setAssignments([...assignments, createdAssignment]));
     router.push(`/Courses/${cid}/Assignments`);
   };
+
+  const onUpdateAssignment = async () => {
+    if (!assignment._id) return;
+    await client.updateAssignment(assignment._id, assignment);
+    const newAssignments = assignments.map((a: any) =>
+      a._id === assignment._id ? assignment : a
+    );
+    dispatch(setAssignments(newAssignments));
+    router.push(`/Courses/${cid}/Assignments`);
+  };
+
+  const handleSave = () => {
+    if (assignment._id) {
+      onUpdateAssignment();
+    } else {
+      onCreateAssignmentForCourse();
+    }
+  };
+
+  const fetchAssignments = async () => {
+    const assignments = await client.findAssignmentsForCourse(cid as string);
+    dispatch(setAssignments(assignments));
+  };
+
+  useEffect(() => {
+    if (!assignmentToEdit && aid) {
+      fetchAssignments();
+    }
+  }, [aid]);
 
   return (
     <div id="wd-assignments-editor" className="p-3">

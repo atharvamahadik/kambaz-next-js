@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import { ListGroup, ListGroupItem } from "react-bootstrap";
 import { FaCaretDown, FaCheckCircle, FaTrash } from "react-icons/fa";
@@ -9,8 +9,9 @@ import { BsGripVertical } from "react-icons/bs";
 import { LiaFileContractSolid } from "react-icons/lia";
 import { useParams } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteAssignment } from "./reducer";
+import { deleteAssignment, setAssignments } from "./reducer";
 import AssignmentControlButtons from "./AssignmentControlButtons";
+import * as client from "../../client";
 
 interface Assignment {
   _id: string;
@@ -22,6 +23,7 @@ interface Assignment {
   availableStartDate?: string;
   availableEndDate?: string;
 }
+
 interface RootState {
   assignmentsReducer: { assignments: Assignment[] };
 }
@@ -34,15 +36,23 @@ export default function Assignments() {
     (state: RootState) => state.assignmentsReducer
   );
 
-  const courseAssignments = assignments.filter(
-    (assignment: Assignment) => assignment.course === cid
-  );
+  const fetchAssignments = async () => {
+    const assignments = await client.findAssignmentsForCourse(cid as string);
+    dispatch(setAssignments(assignments));
+  };
 
-  const handleDelete = (assignmentId: string) => {
+  const onRemoveAssignment = async (assignmentId: string) => {
     if (window.confirm("Are you sure you want to remove this assignment?")) {
-      dispatch(deleteAssignment(assignmentId));
+      await client.deleteAssignment(assignmentId);
+      dispatch(setAssignments(assignments.filter((a: any) => a._id !== assignmentId)));
     }
   };
+
+  useEffect(() => {
+    fetchAssignments();
+  }, [cid]);
+
+  const courseAssignments = assignments;
 
   return (
     <div id="wd-assignments" className="p-3">
@@ -50,7 +60,7 @@ export default function Assignments() {
 
       <ListGroup>
         <ListGroupItem className="rounded-0 border-gray" id="wd-assignments">
-           <div className="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+          <div className="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
             <div className="d-flex align-items-center">
               <BsGripVertical className="fs-4 me-2" />
               <FaCaretDown className="me-2" />
@@ -92,7 +102,7 @@ export default function Assignments() {
                 <FaTrash
                   className="text-danger"
                   style={{ cursor: "pointer" }}
-                  onClick={() => handleDelete(assignment._id)}
+                  onClick={() => onRemoveAssignment(assignment._id)}
                 />
                 <FaCheckCircle className="text-success fs-5" />
                 <IoEllipsisVertical className="fs-4" />

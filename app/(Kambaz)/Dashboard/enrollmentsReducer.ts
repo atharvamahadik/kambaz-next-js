@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { enrollments } from "../Database"; // Load initial data
+import { enrollments } from "../Database";
 import { v4 as uuidv4 } from "uuid";
 
 interface Enrollment {
@@ -16,17 +16,15 @@ const enrollmentsSlice = createSlice({
   name: "enrollments",
   initialState,
   reducers: {
-    // Action to enroll a user in a course
     enrollUser: (state, action) => {
       const { userId, courseId } = action.payload;
       const newEnrollment: Enrollment = {
-        _id: uuidv4(), // Create a new unique ID
+        _id: uuidv4(),
         user: userId,
         course: courseId,
       };
       state.enrollments.push(newEnrollment);
     },
-    // Action to unenroll a user
     unenrollUser: (state, action) => {
       const { userId, courseId } = action.payload;
       state.enrollments = state.enrollments.filter(

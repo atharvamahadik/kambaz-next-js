@@ -1,4 +1,5 @@
 "use client";
+import * as client from "../client";
 import Link from "next/link";
 import { redirect } from 'next/navigation';
 import { setCurrentUser } from "../reducer";
@@ -6,29 +7,13 @@ import { useDispatch } from "react-redux";
 import { useState } from "react";
 import * as db from "../../Database";
 import { FormControl, Button } from "react-bootstrap";
-interface Credentials {
-  username?: string;
-  password?: string;
-}
-interface User {
-  _id: string;
-  username: string;
-  password: string;
-}
 
 export default function Signin() {
-  const [credentials, setCredentials] = useState<Credentials>({
-    username: "",
-    password: "",
-  });
+  const [credentials, setCredentials] = useState<any>({});
   const dispatch = useDispatch();
 
-  const signin = () => {
-    const user = db.users.find(
-      (u: User) =>
-        u.username === credentials.username &&
-        u.password === credentials.password
-    );
+  const signin = async () => {
+    const user = await client.signin(credentials);
     if (!user) {
         alert("Invalid username or password");
         return;
