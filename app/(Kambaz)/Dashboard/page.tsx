@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addNewCourse, deleteCourse, updateCourse, setCourses } from "../Courses/reducer";
-import { enrollUser, unenrollUser, setEnrollments } from "../Courses/Enrollments/reducer";
+import { setEnrollments } from "../Courses/Enrollments/reducer"; // ← CHANGED IMPORT
 import * as client from "../Courses/client";
 import * as enrollmentsClient from "../Courses/Enrollments/client";
 import Link from "next/link";
@@ -71,20 +71,14 @@ export default function Dashboard() {
       dispatch(setCourses(allCourses));
 
       const userEnrollments = await enrollmentsClient.findEnrollmentsForUser(currentUser._id);
+      console.log("Fetched enrollments from backend:", userEnrollments);
       dispatch(setEnrollments(userEnrollments));
-
-      localStorage.setItem("enrollments", JSON.stringify(userEnrollments));
     } catch (error) {
       console.error("Error fetching dashboard data:", error);
     }
   };
 
   useEffect(() => {
-    const savedEnrollments = localStorage.getItem("enrollments");
-    if (savedEnrollments) {
-      dispatch(setEnrollments(JSON.parse(savedEnrollments)));
-    }
-
     fetchDashboardData();
   }, [currentUser]);
 
@@ -114,30 +108,32 @@ export default function Dashboard() {
   const handleEnroll = async (courseId: string) => {
     if (!currentUser) return;
     try {
-      const newEnrollment = await client.enrollUser(currentUser._id, courseId);
-      dispatch(enrollUser({ userId: currentUser._id, courseId }));
-
-      localStorage.setItem(
-        "enrollments",
-        JSON.stringify([...enrollments, { user: currentUser._id, course: courseId }])
-      );
+      await enrollmentsClient.enrollUserInCourse(currentUser._id, courseId);
+      
+      // Refetch enrollments from backend to sync
+      const updatedEnrollments = await enrollmentsClient.findEnrollmentsForUser(currentUser._id);
+      dispatch(setEnrollments(updatedEnrollments));
+      
+      console.log("✅ Enrolled successfully");
     } catch (error) {
-      console.error("Enrollment failed:", error);
+      console.error("❌ Enrollment failed:", error);
+      alert("Failed to enroll in course. Please try again.");
     }
   };
 
   const handleUnenroll = async (courseId: string) => {
     if (!currentUser) return;
     try {
-      await client.unenrollUser(currentUser._id, courseId);
-      dispatch(unenrollUser({ userId: currentUser._id, courseId }));
-
-      localStorage.setItem(
-        "enrollments",
-        JSON.stringify(enrollments.filter((e) => e.course !== courseId))
-      );
+      await enrollmentsClient.unenrollUserFromCourse(currentUser._id, courseId);
+      
+      // Refetch enrollments from backend to sync
+      const updatedEnrollments = await enrollmentsClient.findEnrollmentsForUser(currentUser._id);
+      dispatch(setEnrollments(updatedEnrollments));
+      
+      console.log("✅ Unenrolled successfully");
     } catch (error) {
-      console.error("Unenrollment failed:", error);
+      console.error("❌ Unenrollment failed:", error);
+      alert("Failed to unenroll from course. Please try again.");
     }
   };
 
